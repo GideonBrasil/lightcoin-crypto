@@ -15,20 +15,24 @@ class Transaction {
     this.account = account;
   }
 
+  commit() {
+    this.account.balance += this.value;
+  }
+
 }
 
 class Withdrawal extends Transaction {
 
-  commit() {
-    this.account.balance -= this.amount;
+  get value() {
+    return -this.amount;
   }
 
 }
 
 class Deposit extends Transaction {
 
-  deposit() {
-    this.account.balance += this.amount;
+  get value() {
+    return this.amount;
   }
 
 }
@@ -47,7 +51,7 @@ t2.commit();
 console.log('Transaction 2:', t2);
 
 t3 = new Deposit(120.00, myAccount)
-t3.deposit();
+t3.commit();
 console.log('Transaction 3:', t3);
 
-console.log(`'${myAccount.username}'s account has a balance of ${myAccount.balance}` );
+console.log(`'${myAccount.username}'s account has a balance of ${myAccount.balance}`);
