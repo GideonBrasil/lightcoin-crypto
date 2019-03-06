@@ -1,31 +1,5 @@
 let balance = 500.00;
 
-class Withdrawal {
-
-  constructor(amount, account) {
-    this.amount = amount;
-    this.account = account;
-  }
-
-  commit() {
-    this.account.balance -= this.amount;
-  }
-
-}
-
-class Deposit {
-
-  constructor(amount, account) {
-    this.amount = amount;
-    this.account = account;
-  }
-
-  deposit() {
-    this.account.balance += this.amount;
-  }
-
-}
-
 class Account {
 
   constructor(username) {
@@ -34,6 +8,30 @@ class Account {
   }
 }
 
+class Transaction {
+
+  constructor(amount, account) {
+    this.amount = amount;
+    this.account = account;
+  }
+
+}
+
+class Withdrawal extends Transaction {
+
+  commit() {
+    this.account.balance -= this.amount;
+  }
+
+}
+
+class Deposit extends Transaction {
+
+  deposit() {
+    this.account.balance += this.amount;
+  }
+
+}
 
 // DRIVER CODE BELOW
 // We use the code below to "drive" the application logic above and make sure it's working as expected
@@ -52,4 +50,4 @@ t3 = new Deposit(120.00, myAccount)
 t3.deposit();
 console.log('Transaction 3:', t3);
 
-console.log('Balance:', balance);
+console.log(`'${myAccount.username}'s account has a balance of ${myAccount.balance}` );
