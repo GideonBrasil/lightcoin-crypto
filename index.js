@@ -28,8 +28,13 @@ class Transaction {
   }
 
   commit() {
+    if (!this.isAllowed()) {
+    return false;
+  } else {
     this.time = new Date();
     this.account.addTransaction(this);
+    return true;
+  }
   }
 
 }
@@ -39,6 +44,10 @@ class Withdrawal extends Transaction {
   get value() {
     return -this.amount;
   }
+  
+  isAllowed() {
+    return (this.account.balance - this.amount >= 0);
+  }
 
 }
 
@@ -46,6 +55,10 @@ class Deposit extends Transaction {
 
   get value() {
     return this.amount;
+  }
+
+  isAllowed() {
+    return true;
   }
 
 }
@@ -58,19 +71,19 @@ const myAccount = new Account('Poor Labber');
 console.log(`${myAccount.username}'s account has a balance of ${myAccount.balance} dollars.`);
 
 t1 = new Deposit(500.00, myAccount);
-t1.commit();
+console.log('Commit result: ', t1.commit()); 
 console.log('Salary deposit: +', t1.amount, 'dollars.');
 
-t2 = new Withdrawal(50.25, myAccount);
-t2.commit();
+t2 = new Withdrawal(550.25, myAccount);
+console.log('Commit result: ', t2.commit()); 
 console.log('Pay phone bill: -', t2.amount, 'dollars.');
 
 t3 = new Withdrawal(9.99, myAccount);
-t3.commit();
+console.log('Commit result: ', t3.commit()); 
 console.log('Pay for lunch at DQ: -', t3.amount, 'dollars.');
 
 t4 = new Deposit(120.00, myAccount)
-t4.commit();
+console.log('Commit result: ', t4.commit()); 
 console.log('Side job deposit: +', t4.amount, 'dollars.');
 
 console.log(`${myAccount.username}'s account has a balance of ${myAccount.balance} dollars.`);
